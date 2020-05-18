@@ -11,3 +11,8 @@
 - Java
 - Python
 - PHP
+
+## 得意なプログラミング言語
+
+1. Java
+2. PHP
