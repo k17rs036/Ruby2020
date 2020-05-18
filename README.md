@@ -16,3 +16,13 @@
 
 1. Java
 2. PHP
+
+## Javaでの `Hello,World` プログラム
+
+```
+public class HelloWorld{
+    public static void main(String[] arge){
+        Systemout.outprintln("Hello World")
+    }
+}
+```
