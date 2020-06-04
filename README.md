@@ -22,7 +22,7 @@
 ```
 public class HelloWorld{
     public static void main(String[] arge){
-        Systemout.outprintln("Hello World");
+        System.out.println("Hello World");
     }
 }
 ```
