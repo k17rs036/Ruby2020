@@ -17,6 +17,11 @@ def fact2 x
     answer
 end
 
+def factR2 n
+    return 1 if n==0
+    return n*factR2(n-1) if n>0
+end
+
 #再帰呼び出し
 def factR n
     if n==0
@@ -30,4 +35,5 @@ x=ARGV[0].to_i
 puts fact x
 puts fact2 x
 puts factR x
+puts factR2 x
 
