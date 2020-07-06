@@ -1,6 +1,8 @@
 # httpclient.rb
 
 # http://wwww.is.kyusan-u.ac.jp/~toshi/index.html
+# http://wwww.is.kyusan-u.ac.jp/~toshi/test.html
+
 
 # URL
 # <scheme>://<hostname>/<path>
