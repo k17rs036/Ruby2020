@@ -1,7 +1,7 @@
 # httpclient.rb
 
-# http://wwww.is.kyusan-u.ac.jp/~toshi/index.html
-# http://wwww.is.kyusan-u.ac.jp/~toshi/test.html
+# http://www.is.kyusan-u.ac.jp/~toshi/index.html
+# http://www.is.kyusan-u.ac.jp/~toshi/test.html
 
 
 # URL

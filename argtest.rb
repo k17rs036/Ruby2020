@@ -12,3 +12,8 @@ p proto
 p dummy
 p host
 p path
+
+a,b,*c=[0,1,2,3,4]
+p a
+p b
+p c

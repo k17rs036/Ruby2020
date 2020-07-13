@@ -3,11 +3,23 @@
 
 #inf=ARGV[0]
 #inf=ARGV[1]
+
+# http://www.is.kyusan-u.ac.jp/~toshi/index.html
+# httpclient11regexp.rb
+
 require "socket"
 
-proto,dummy,host,*arg=ARGV[0].split "/"
-path=arg.join "/"
+if %r{(.*)://([^/]*)/(.*)} =~ ARGV[0]
+    proto=$1
+    host=$2
+    path=$3
+#    p [proto, host, path]
+else
+    puts 'ARG error'
+    exit
+end
 port=80
+
 
 TCPSocket.open host, port do |sock|
     sock.puts "GET /#{path} HTTP/1.1"
@@ -15,8 +27,10 @@ TCPSocket.open host, port do |sock|
     sock.puts "Connection: close"
     sock.puts ""
 
-    is_body=false
     while line=sock.gets
         puts line
     end
 end
+
+# 正規表現
+# regular expression
