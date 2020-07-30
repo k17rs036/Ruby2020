@@ -13,9 +13,10 @@ ZIP_COAD = "813-0004"
 def server sock
     response = open(BASE_URL + "?&zip=#{ZIP_COAD},JP&units=metric&appid=#{API_KEY}")
     data = JSON.parse(response.read, {symbolize_names: true})
-    weather = data[:weather][0][:main]
-    t1 = "現在の福岡市の天気は"
-    t2 = "です。"
+    cw = data[:weather][0][:main]
+    ct = data[:main][:temp]
+    ctmax = data[:main][:temp_max]
+    ctmin = data[:main][:temp_min]
     body=""
     #l1=""
     while line=sock.gets
@@ -36,15 +37,20 @@ def server sock
                 body += "HELLO!"
             elsif path=="/now"
                 body += DateTime.now.to_s
+                #現在、松香台の気温は XX度で、 晴れ です。今日は 予想最高気温XX度、最低気温XX度で晴れるでしょう！
             elsif path=="/cw"
-                if weather == "Clear"
-                    body += t1+"\"晴れ\""+t2
-                elsif weather == "Clouds"
-                    body += t1+"\"くもり\""+t2
-                elsif weather == "Rain"
-                    body += t1+"\"雨\""+t2
-                elsif weather == "Snow"
-                    body += t1+"\"雪\""+t2
+                if cw == "Clear"
+                    body += "現在、松香台は#{ct}度で\"晴れ\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                elsif cw == "Clouds"
+                    body += "現在、松香台は#{ct}度で\"くもり\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                elsif cw == "Rain"
+                    body += "現在、松香台は#{ct}度で\"雨\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                elsif cw == "Snow"
+                    body += "現在、松香台は#{ct}度で\"雪\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                elsif cw == "Thunderstorm"
+                    body +=  "現在、松香台は#{ct}度で\"雷雨\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                elsif cw == "Drizzle"
+                    body += "現在、松香台は#{ct}度で\"霧雨\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
                 else
                     body weather
                 end
