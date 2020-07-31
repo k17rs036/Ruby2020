@@ -5,18 +5,18 @@ require 'date'
 require "json"
 require "open-uri"
 require "./key"
-
-API_KEY = $api_key
-BASE_URL = "https://api.openweathermap.org/data/2.5/weather/"
-ZIP_COAD = "813-0004"
+require "./current_weather"
+require "./forecast_weather"
 
 def server sock
-    response = open(BASE_URL + "?&zip=#{ZIP_COAD},JP&units=metric&appid=#{API_KEY}")
-    data = JSON.parse(response.read, {symbolize_names: true})
-    cw = data[:weather][0][:main]
-    ct = data[:main][:temp]
-    ctmax = data[:main][:temp_max]
-    ctmin = data[:main][:temp_min]
+    cw = $cw
+    ct = $ct
+    ctmax = $ctmax
+    ctmin = $ctmin
+    fw = $fw
+    fw2 = $fw2
+    cttemp = $cttemp
+
     body=""
     #l1=""
     while line=sock.gets
@@ -28,11 +28,11 @@ def server sock
             path=$1
             if path=="/fn"
                 body += "-Functions List-"+
-                "\n\"hello\""+"    "+"Return HELLO!"+
-                "\n\"now\""+"      "+"Answer the Current time"+
-                "\n\"cw\""+"       "+"Answer the Current weather in Fukuoka"+
-                "\n\"tdw\""+"      "+"Answer the Today's weather in Fukuoka"+ 
-                "\n\"tmw\""+"      "+"Answer the Tomorrow's weather in Fukuoka"
+                "\n\"hello\""+"    "+"HELLO!を返す"+
+                "\n\"now\""+"      "+"現在日時を返す"+
+                "\n\"cw\""+"       "+"現在の松香台の天気を返す"+
+                "\n\"tdw\""+"      "+"今日の松香台の天気予報を返す"+ 
+                "\n\"tmw\""+"      "+"明日の松香台の天気予報を返す"
             elsif path=="/hello"
                 body += "HELLO!"
             elsif path=="/now"
@@ -40,22 +40,28 @@ def server sock
                 #現在、松香台の気温は XX度で、 晴れ です。今日は 予想最高気温XX度、最低気温XX度で晴れるでしょう！
             elsif path=="/cw"
                 if cw == "Clear"
-                    body += "現在、松香台は#{ct}度で\"晴れ\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                    body += "現在、松香台は#{$ct}度で\"晴れ\"です。今日の予想最高気温は#{$ctmax}度、最低気温は#{$ctmin}度で#{$cttemp}です。"
                 elsif cw == "Clouds"
-                    body += "現在、松香台は#{ct}度で\"くもり\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                    body += "現在、松香台は#{$ct}度で\"くもり\"です。今日の予想最高気温は#{$ctmax}度、最低気温は#{$ctmin}度で#{$cttemp}です。"
                 elsif cw == "Rain"
-                    body += "現在、松香台は#{ct}度で\"雨\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                    body += "現在、松香台は#{$ct}度で\"雨\"です。今日の予想最高気温は#{$ctmax}度、最低気温は#{$ctmin}度で#{$cttemp}です。"
                 elsif cw == "Snow"
-                    body += "現在、松香台は#{ct}度で\"雪\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                    body += "現在、松香台は#{$ct}度で\"雪\"です。今日の予想最高気温は#{$ctmax}度、最低気温は#{$ctmin}度で#{$cttemp}です。"
                 elsif cw == "Thunderstorm"
-                    body +=  "現在、松香台は#{ct}度で\"雷雨\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                    body +=  "現在、松香台は#{$ct}度で\"雷雨\"です。今日の予想最高気温は#{$ctmax}度、最低気温は#{$ctmin}度で#{$cttemp}です。"
                 elsif cw == "Drizzle"
-                    body += "現在、松香台は#{ct}度で\"霧雨\"です。今日の予想最高気温は#{ctmax}度、最低気温は#{ctmin}度です。"
+                    body += "現在、松香台は#{$ct}度で\"霧雨\"です。今日の予想最高気温は#{$ctmax}度、最低気温は#{$ctmin}度で#{$cttemp}です。"
                 else
-                    body weather
+                    body += "Error"
                 end
+            elsif path=="/cw1"
+                body += "現在、松香台は#{$ct}度で\"#{$cw}\"です。今日の予想最高気温は#{$ctmax}度、最低気温は#{$ctmin}度で#{$cttemp}です。".gsub(/Clear|Clouds|Rain|Snow|Thunderstorm|Drizzle/, "Clear" => "晴れ", "Clouds" => "くもり", "Rain" => "雨", "Snow" => "雪", "Thunderstorm" => "雷雨", "Drizzle" => "霧雨")
+            elsif path=="/tdw"
+                body += "#{$fw}"
+            elsif path=="/tmw"
+                body += "#{$fw2}"
             else
-                body += "unknown #{path}"
+                body += "unknown #{path} fnと入力して下さい。機能一覧を表示します。"
             end
         end
     end
