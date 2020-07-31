@@ -53,7 +53,6 @@ elsif ($fw6 == "Drizzle") && ($fw12 == "Drizzle")
 else 
     $fw = "#{t61}\"#{$fw6}\"のち\"#{$fw12}\"でしょう。#{t62}".gsub(/Clear|Clouds|Rain|Snow|Thunderstorm|Drizzle/, "Clear" => "晴れ", "Clouds" => "くもり", "Rain" => "雨", "Snow" => "雪", "Thunderstorm" => "雷雨", "Drizzle" => "霧雨")
 end
-#puts $fw
 
 
 if $ft24max < 10
