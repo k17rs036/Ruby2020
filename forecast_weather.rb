@@ -75,6 +75,6 @@ end
 t241 = "明日の松香台の天気は、"
 t242 = "最高気温#{$ft24max}度、最低気温は#{$ft24min}度で#{$t24temp}でしょう。"
 
-$fw2 = "#{t241}#{$fw24}でしょう。#{t242}".gsub(/Clear|Clouds|Rain|Snow|Thunderstorm|Drizzle/, "Clear" => "晴れ", "Clouds" => "くもり", "Rain" => "雨", "Snow" => "雪", "Thunderstorm" => "雷雨", "Drizzle" => "霧雨")
+$fw2 = "#{t241}\"#{$fw24}\"でしょう。#{t242}".gsub(/Clear|Clouds|Rain|Snow|Thunderstorm|Drizzle/, "Clear" => "晴れ", "Clouds" => "くもり", "Rain" => "雨", "Snow" => "雪", "Thunderstorm" => "雷雨", "Drizzle" => "霧雨")
 
 #puts $fw2
