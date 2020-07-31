@@ -28,16 +28,9 @@ def server sock
             path=$1
             if path=="/fn"
                 body += "-Functions List-"+
-                "\n\"hello\""+"    "+"HELLO!を返す"+
-                "\n\"now\""+"      "+"現在日時を返す"+
                 "\n\"cw\""+"       "+"現在の松香台の天気を返す"+
                 "\n\"tdw\""+"      "+"今日の松香台の天気予報を返す"+ 
                 "\n\"tmw\""+"      "+"明日の松香台の天気予報を返す"
-            elsif path=="/hello"
-                body += "HELLO!"
-            elsif path=="/now"
-                body += DateTime.now.to_s
-                #現在、松香台の気温は XX度で、 晴れ です。今日は 予想最高気温XX度、最低気温XX度で晴れるでしょう！
             elsif path=="/cw"
                 if cw == "Clear"
                     body += "現在、松香台は#{$ct}度で\"晴れ\"です。今日の予想最高気温は#{$ctmax}度、最低気温は#{$ctmin}度で#{$cttemp}です。"
